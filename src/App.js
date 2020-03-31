@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from "react";
+import {Query} from 'react-apollo'
+import {GET_NOTES} from './queries.js'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+    render() {
+        return (
+            <div className="App">
+              {/* 역기다가 아무것도 안 채워넣으면 cache 가 작동 안하는 버그가 있다고 한다. */}
+              <Query query = {GET_NOTES}>{()=>null}</Query>
+            </div>
+        );
+    }
 }
 
 export default App;
