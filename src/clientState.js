@@ -11,10 +11,11 @@ export const defaults = {
             __typename: "Note",
             id: 1,
             title: "First",
-            content: "Second"
+            content: "- Second"
         }
     ]
 };
+// editNote(id: String!, title: String!, content:String!): Note
 export const typeDefs = [`
       schema {
           query: Query
@@ -26,7 +27,7 @@ export const typeDefs = [`
       }
       type Mutation{
         createNote(title: String!, content: String!): Note
-        editNote(id: String!, title: String!, content:String!): Note
+        editNote(id: Int!, title: String, content:String): Note
       }
       type Note{
           id: Int!
@@ -65,6 +66,28 @@ export const resolvers = {
           }
         });
         return newNote;
+      },
+
+      editNote: (_, { id, title, content }, { cache }) => { // cache from the context
+        // 1. id 를 받아서
+        const noteId = cache.config.dataIdFromObject({
+          __typename: "Note",
+          id
+        });
+        // 2. Id 를 통해 fragment 를 받는다.
+        const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id: noteId }); // mutation 안에서는 id만 사용할 수는 없음. (위에 query 에서는 됐는데...?)
+        // console.log(note)  
+        const updatedNote = {
+          ...note,
+          title,
+          content
+        };
+        cache.writeFragment({
+          id: noteId,
+          fragment: NOTE_FRAGMENT,
+          data: updatedNote
+        });
+        return updatedNote;
       }
-    }
+    }  
 };
