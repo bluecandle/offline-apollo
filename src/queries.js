@@ -15,7 +15,7 @@ export const GET_NOTES = gql`
 
 export const GET_NOTE = gql`
   query getNote($id: Int!) {
-    note(id: $id) @client {
+    note(id: $id) @client { # offline 작업 중이고, client 에서 형성된 데이터local state)이기 때문에, @client 를 넣어줘야 한다.
       ...NoteParts
     }
   }

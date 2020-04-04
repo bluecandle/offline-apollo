@@ -27,7 +27,7 @@ export default class Note extends React.Component {
       match: {
         params: { id }
       }
-    } = this.props;
+    } = this.props; // react-router-dom 에 의해 형성되는 prop 안에  match 안에 params 안에 id 가 들어있음.
     return (
       <Query query={GET_NOTE} variables={{ id }}>
         {({ data }) =>
@@ -39,7 +39,8 @@ export default class Note extends React.Component {
                   <Button>Edit</Button>
                 </Link>
               </TitleComponent>
-              <MarkdownRenderer markdown={data.note.content} />
+              <MarkdownRenderer markdown={data.note.content} /> 
+              {/* MarkdownRenderer 에서 content 에 들어있는 string 부분을 맡게 되는 것 ( markdown 양식으로 표현되도록 해주는거!) */}
             </>
           ) : null
         }

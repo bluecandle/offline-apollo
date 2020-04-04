@@ -3,17 +3,19 @@
 
 import {NOTE_FRAGMENT} from "./fragments";
 import { GET_NOTES } from "./queries";
-
+import { saveNotes, restoreNotes } from "./offline";
 
 export const defaults = {
-    notes: [
-        {
-            __typename: "Note",
-            id: 1,
-            title: "First",
-            content: "- Second"
-        }
-    ]
+    // notes: [
+    //     {
+    //         __typename: "Note",
+    //         id: 1,
+    //         title: "First",
+    //         content: "- Second"
+    //     }
+    // ]
+    // notes: []
+    notes: restoreNotes()
 };
 // editNote(id: String!, title: String!, content:String!): Note
 export const typeDefs = [`
@@ -65,6 +67,7 @@ export const resolvers = {
             notes: [newNote, ...notes]
           }
         });
+        saveNotes(cache); // offline localStorage 에 저장.
         return newNote;
       },
 
@@ -87,6 +90,7 @@ export const resolvers = {
           fragment: NOTE_FRAGMENT,
           data: updatedNote
         });
+        saveNotes(cache); // offline localStorage 에 저장.
         return updatedNote;
       }
     }  

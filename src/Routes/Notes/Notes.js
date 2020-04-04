@@ -64,7 +64,7 @@ export default class NotesContainer extends React.Component {
       <>
         <Header>
           <Title>
-            Nomad Notes
+            Apollo Offline Notes
             <Link to={"/add"}>
               <Button>
                 {/* <Plus /> */}
